@@ -1,0 +1,46 @@
+package parser;
+
+import analisador.lexico.Lexer;
+import java.io.*;
+import java_cup.runtime.ComplexSymbolFactory;
+
+parser code {:
+
+    private Lexer lexer;
+    private File file;
+
+    public Parser(File file) throws IOException {
+
+        this.file = file;
+        ComplexSymbolFactory symbolFactory = new ComplexSymbolFactory();
+        super.symbolFactory = symbolFactory;
+        this.lexer = new Lexer(file, symbolFactory);
+    }
+:}
+
+scan with {:
+	return lexer.next_token();
+:};
+
+terminal PUBLIC, EXTENDS, CLASS, STATIC, VOID, INT, BOOLEAN, RETURN, IF, ELSE, THIS, NEW, WHILE,
+		 SEMICOLON, POINT, COMMA, ASSIGN, OPEN_PARENT, CLOSE_PARENT, OPEN_BRACK, 
+		 CLOSE_BRACK, OPEN_KEYS,CLOSE_KEYS, PLUS, MINUS, PERCENT, OR, AND, EQUALS, 
+		 DIFF, LESS, LESS_EQUAL, GREATER, GREATER_EQUAL, MULTIPLY, DIVISOR, 
+		 EXCLAMATION, STRING, SYSO, MAIN, LENGTH;
+terminal Boolean FALSE, TRUE;
+terminal Integer INTEGER;
+terminal String IDENTIFIER;
+
+//non terminals
+
+non terminal goal;
+non terminal mainClass;
+non terminal classDeclaration;
+non terminal varDeclaration;
+non terminal methodDeclaration;
+non terminal type;
+non terminal statement;
+non terminal expression;
+non terminal identifier;
+
+goal ::= PUBLIC;
